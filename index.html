@@ -277,7 +277,7 @@
 &lt;/<span class="kw">script</span>&gt;</pre>
         </div>
 
-        <div class="c-flex c-gap-2 c-flex-wrap c-mt-6">
+        <div class="c-flex c-gap-2 c-flex-wrap c-mt-6 c-mb-10">
           <span class="badge-pill">JavaScript</span>
           <span class="badge-pill">TypeScript</span>
           <span class="badge-pill">React</span>
@@ -288,24 +288,10 @@
           <span class="badge-pill">Nuxt</span>
           <span class="badge-pill">Plain HTML</span>
         </div>
-      </div>
-    </section>
 
-    <section class="anchor c-py-20 c-border-t c-border-base" id="usage">
-      <div class="c-container">
-        <div class="section-label">Quick Start</div>
-        <h2 class="c-text-3xl c-font-black c-tracking-tight c-mb-3">
-          One query. One call. Everything back.
-        </h2>
-        <p
-          class="c-text-base c-text-muted c-mb-8"
-          style="max-width: 520px; line-height: 1.7"
-        >
-          Without fluxgrid-data you write the same filter, sort, and slice logic
-          in every component. With it, you write it once.
-        </p>
+        <div class="section-label c-mt-10">Without vs With — side by side</div>
 
-        <div class="two-col c-mb-10">
+        <div class="two-col c-mb-8">
           <div>
             <p
               class="c-text-xs c-font-bold c-uppercase c-tracking-wide c-text-muted c-mb-3"
@@ -314,11 +300,12 @@
             </p>
             <div class="code-wrap">
               <div class="code-header">
-                <span class="code-lang">JS — copy-pasted everywhere</span>
+                <span class="code-lang">JS — written in every component</span>
               </div>
               <pre><span class="kw">const</span> filtered = users
-  .<span class="fn">filter</span>(u => u.name
-    .toLowerCase().includes(term))
+  .<span class="fn">filter</span>(u => [<span class="str">'name'</span>,<span class="str">'email'</span>]
+    .<span class="fn">some</span>(f => u[f].toLowerCase()
+      .includes(term)))
   .<span class="fn">sort</span>((a,b) =>
     a.name.localeCompare(b.name));
 
@@ -328,7 +315,10 @@
   (page-<span class="str">1</span>)*<span class="str">10</span>, page*<span class="str">10</span>);
 <span class="kw">const</span> hasNext = page &lt; pages;
 <span class="kw">const</span> hasPrev = page &gt; <span class="str">1</span>;
-<span class="cmt">// isEmpty, isNoResults missing</span></pre>
+<span class="kw">const</span> from    = (page-<span class="str">1</span>)*<span class="str">10</span>+<span class="str">1</span>;
+<span class="kw">const</span> to      = Math.<span class="fn">min</span>(page*<span class="str">10</span>,total);
+<span class="cmt">// isEmpty, isNoResults, allSelected,</span>
+<span class="cmt">// someSelected, ms — still missing</span></pre>
             </div>
           </div>
           <div>
@@ -339,7 +329,9 @@
             </p>
             <div class="code-wrap">
               <div class="code-header">
-                <span class="code-lang">JS — defined once</span>
+                <span class="code-lang"
+                  >JS — defined once, used everywhere</span
+                >
                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
               </div>
               <pre><span class="kw">import</span> { createQuery } <span class="kw">from</span>
@@ -360,71 +352,49 @@
         </div>
 
         <div class="section-label">
-          Result object — every field your UI needs
+          Sample result object — what .run() returns
         </div>
-        <div class="result-grid">
-          <div class="result-card">
-            <div class="result-key">result.data</div>
-            <div class="result-type">T[]</div>
-            <div class="result-desc">
-              Records for current page — render this
-            </div>
+        <div class="code-wrap c-mt-3">
+          <div class="code-header">
+            <span class="code-lang">JS — console.log(result)</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           </div>
-          <div class="result-card">
-            <div class="result-key">result.total</div>
-            <div class="result-type">number</div>
-            <div class="result-desc">Total matching records</div>
-          </div>
-          <div class="result-card">
-            <div class="result-key">result.from / .to</div>
-            <div class="result-type">number</div>
-            <div class="result-desc">For "Showing 21–30 of 247"</div>
-          </div>
-          <div class="result-card">
-            <div class="result-key">result.hasNext</div>
-            <div class="result-type">boolean</div>
-            <div class="result-desc">Enable / disable Next button</div>
-          </div>
-          <div class="result-card">
-            <div class="result-key">result.hasPrev</div>
-            <div class="result-type">boolean</div>
-            <div class="result-desc">Enable / disable Prev button</div>
-          </div>
-          <div class="result-card">
-            <div class="result-key">result.isEmpty</div>
-            <div class="result-type">boolean</div>
-            <div class="result-desc">No data and no search</div>
-          </div>
-          <div class="result-card">
-            <div class="result-key">result.isNoResults</div>
-            <div class="result-type">boolean</div>
-            <div class="result-desc">Search returned nothing</div>
-          </div>
-          <div class="result-card">
-            <div class="result-key">result.allSelected</div>
-            <div class="result-type">boolean</div>
-            <div class="result-desc">All rows on page checked</div>
-          </div>
-          <div class="result-card">
-            <div class="result-key">result.someSelected</div>
-            <div class="result-type">boolean</div>
-            <div class="result-desc">Indeterminate checkbox state</div>
-          </div>
-          <div class="result-card">
-            <div class="result-key">result.sortField</div>
-            <div class="result-type">string</div>
-            <div class="result-desc">Show sort arrow on header</div>
-          </div>
-          <div class="result-card">
-            <div class="result-key">result.term</div>
-            <div class="result-type">string</div>
-            <div class="result-desc">Highlight matched text</div>
-          </div>
-          <div class="result-card">
-            <div class="result-key">result.ms</div>
-            <div class="result-type">number</div>
-            <div class="result-desc">Query time in milliseconds</div>
-          </div>
+          <pre>{
+  <span class="prop">data</span>: [
+    { <span class="prop">id</span>: <span class="str">1</span>,  <span class="prop">name</span>: <span class="str">"Arjun Sharma"</span>,  <span class="prop">role</span>: <span class="str">"Admin"</span>,  <span class="prop">salary</span>: <span class="str">95000</span>  },
+    { <span class="prop">id</span>: <span class="str">2</span>,  <span class="prop">name</span>: <span class="str">"Priya Nair"</span>,    <span class="prop">role</span>: <span class="str">"Editor"</span>, <span class="prop">salary</span>: <span class="str">72000</span>  },
+    { <span class="prop">id</span>: <span class="str">3</span>,  <span class="prop">name</span>: <span class="str">"Rahul Mehta"</span>,   <span class="prop">role</span>: <span class="str">"Viewer"</span>, <span class="prop">salary</span>: <span class="str">61000</span>  },
+    { <span class="prop">id</span>: <span class="str">4</span>,  <span class="prop">name</span>: <span class="str">"Sneha Patel"</span>,   <span class="prop">role</span>: <span class="str">"Editor"</span>, <span class="prop">salary</span>: <span class="str">78000</span>  },
+    { <span class="prop">id</span>: <span class="str">5</span>,  <span class="prop">name</span>: <span class="str">"Vikram Singh"</span>,  <span class="prop">role</span>: <span class="str">"Admin"</span>,  <span class="prop">salary</span>: <span class="str">102000</span> },
+    { <span class="prop">id</span>: <span class="str">6</span>,  <span class="prop">name</span>: <span class="str">"Divya Reddy"</span>,   <span class="prop">role</span>: <span class="str">"Viewer"</span>, <span class="prop">salary</span>: <span class="str">58000</span>  },
+    { <span class="prop">id</span>: <span class="str">7</span>,  <span class="prop">name</span>: <span class="str">"Karthik Iyer"</span>,  <span class="prop">role</span>: <span class="str">"Editor"</span>, <span class="prop">salary</span>: <span class="str">85000</span>  },
+    { <span class="prop">id</span>: <span class="str">8</span>,  <span class="prop">name</span>: <span class="str">"Meera Nair"</span>,    <span class="prop">role</span>: <span class="str">"Viewer"</span>, <span class="prop">salary</span>: <span class="str">55000</span>  },
+    { <span class="prop">id</span>: <span class="str">9</span>,  <span class="prop">name</span>: <span class="str">"Aditya Kumar"</span>,  <span class="prop">role</span>: <span class="str">"Admin"</span>,  <span class="prop">salary</span>: <span class="str">110000</span> },
+    { <span class="prop">id</span>: <span class="str">10</span>, <span class="prop">name</span>: <span class="str">"Lakshmi Rao"</span>,   <span class="prop">role</span>: <span class="str">"Editor"</span>, <span class="prop">salary</span>: <span class="str">74000</span>  },
+  ],
+
+  <span class="prop">total</span>:          <span class="str">47</span>,    <span class="cmt">// total matching records across all pages</span>
+  <span class="prop">page</span>:            <span class="str">1</span>,    <span class="cmt">// current page number</span>
+  <span class="prop">pages</span>:           <span class="str">5</span>,    <span class="cmt">// total pages  (47 records / 10 per page)</span>
+  <span class="prop">pageSize</span>:       <span class="str">10</span>,    <span class="cmt">// rows per page</span>
+  <span class="prop">from</span>:            <span class="str">1</span>,    <span class="cmt">// first record on this page</span>
+  <span class="prop">to</span>:             <span class="str">10</span>,    <span class="cmt">// last record — use for "Showing 1–10 of 47"</span>
+
+  <span class="prop">hasNext</span>:      <span class="kw">true</span>,    <span class="cmt">// page 1 of 5 — next page exists</span>
+  <span class="prop">hasPrev</span>:     <span class="kw">false</span>,    <span class="cmt">// page 1 — no previous page</span>
+
+  <span class="prop">term</span>:          <span class="str">"a"</span>,    <span class="cmt">// active search term — use to highlight matched text</span>
+  <span class="prop">sortField</span>:  <span class="str">"name"</span>,    <span class="cmt">// active sort column — show arrow indicator on header</span>
+  <span class="prop">sortDir</span>:     <span class="str">"asc"</span>,    <span class="cmt">// sort direction — A → Z</span>
+
+  <span class="prop">isEmpty</span>:     <span class="kw">false</span>,    <span class="cmt">// false — data exists, no empty state needed</span>
+  <span class="prop">isNoResults</span>: <span class="kw">false</span>,    <span class="cmt">// false — search returned results</span>
+
+  <span class="prop">allSelected</span>:  <span class="kw">false</span>,   <span class="cmt">// not all 10 rows on this page are checked</span>
+  <span class="prop">someSelected</span>:  <span class="kw">true</span>,   <span class="cmt">// rows 1 and 3 checked — show indeterminate checkbox</span>
+
+  <span class="prop">ms</span>:              <span class="str">1</span>,    <span class="cmt">// entire query ran in 1ms</span>
+}</pre>
         </div>
       </div>
     </section>
