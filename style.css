@@ -443,7 +443,58 @@ td.partial {
   .hero-stats {
     gap: 1.5rem;
   }
+  .api-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+  .api-wrap::-webkit-scrollbar {
+    height: 6px;
+  }
+  .api-wrap::-webkit-scrollbar-track {
+    background: var(--c-gray-200);
+    border-radius: 3px;
+  }
+  [data-theme="dark"] .api-wrap::-webkit-scrollbar-track {
+    background: var(--c-gray-800);
+  }
+  .api-wrap::-webkit-scrollbar-thumb {
+    background: var(--c-primary-400);
+    border-radius: 3px;
+  }
+  .api-wrap::-webkit-scrollbar-thumb:hover {
+    background: var(--c-primary-500);
+  }
+  .api-wrap {
+    position: relative;
+  }
+  .api-wrap::after {
+    content: "← Scroll →";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    padding: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--c-muted);
+    background: var(--c-bg);
+    border-top: 1px solid var(--c-border);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    letter-spacing: 0.06em;
+  }
+  [data-theme="dark"] .api-wrap::after {
+    background: var(--c-bg);
+    color: var(--c-gray-500);
+  }
+  .api-wrap.scrolled-to-end::after {
+    opacity: 0;
+  }
 }
+
 @media (max-width: 480px) {
   .result-grid {
     grid-template-columns: 1fr 1fr;
@@ -454,63 +505,8 @@ td.partial {
   .stat-val {
     font-size: 1.4rem;
   }
-}
-@media (max-width: 768px) {
-  .api-wrap {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-behavior: smooth;
-  }
-
-  /* Custom scrollbar styling */
-  .api-wrap::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  .api-wrap::-webkit-scrollbar-track {
-    background: var(--c-gray-200);
-    border-radius: 3px;
-  }
-
-  [data-theme="dark"] .api-wrap::-webkit-scrollbar-track {
-    background: var(--c-gray-800);
-  }
-
-  .api-wrap::-webkit-scrollbar-thumb {
-    background: var(--c-primary-400);
-    border-radius: 3px;
-  }
-
-  .api-wrap::-webkit-scrollbar-thumb:hover {
-    background: var(--c-primary-500);
-  }
-
-  .api-wrap {
-    position: relative;
-  }
-
   .api-wrap::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 30px;
-    background: linear-gradient(to left, rgba(0, 0, 0, 0.05), transparent);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  [data-theme="dark"] .api-wrap::after {
-    background: linear-gradient(
-      to left,
-      rgba(255, 255, 255, 0.05),
-      transparent
-    );
-  }
-
-  .api-wrap:not(.scrolled-to-end)::after {
-    opacity: 1;
+    font-size: 9px;
+    padding: 6px;
   }
 }
