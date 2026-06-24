@@ -8,424 +8,265 @@
       name="description"
       content="Define your search, sort, filter, and pagination rules once. Run them anywhere. Get back everything your UI needs in one call."
     />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta
+      name="keywords"
+      content="fluxgrid-data, datafluxgrid, frontend data pipeline, search sort paginate, createQuery, in-memory filter, javascript, typescript, react, vue"
+    />
+    <meta
+      property="og:title"
+      content="fluxgrid-data — Composable frontend data pipelines"
+    />
+    <meta
+      property="og:description"
+      content="Define your search, sort, filter, and pagination rules once. Run them anywhere. ~1kB, zero dependencies."
+    />
+    <meta property="og:type" content="website" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@datafluxgrid/fluxgrid-css/dist/fluxgrid.min.css"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <style>
-      /* font overrides only — no layout, no colors, no spacing */
-      body {
-        font-family: "Inter", var(--c-font-sans);
-      }
-      pre,
-      code,
-      .c-font-mono {
-        font-family: "JetBrains Mono", var(--c-font-mono);
-      }
-
-      /* sticky nav — only position behavior */
-      .nav {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-
-      /* syntax highlight colors only */
-      .kw {
-        color: #7f77dd;
-      }
-      .fn {
-        color: var(--c-primary-500);
-      }
-      .str {
-        color: #ba7517;
-      }
-      [data-theme="dark"] .str {
-        color: #e6a817;
-      }
-      .cmt {
-        color: var(--c-muted);
-      }
-      .prop {
-        color: #c95b96;
-      }
-      [data-theme="dark"] .prop {
-        color: #f08db0;
-      }
-
-      /* tab panel show/hide */
-      .tab-panel {
-        display: none;
-      }
-      .tab-panel.active {
-        display: block;
-      }
-
-      /* table cell colors */
-      td.yes {
-        color: var(--c-success-600);
-        font-weight: 500;
-      }
-      td.no {
-        color: var(--c-muted);
-      }
-      td.ours {
-        background: var(--c-primary-50);
-        color: var(--c-primary-700);
-        font-weight: 600;
-      }
-      [data-theme="dark"] td.ours {
-        background: var(--c-gray-800);
-        color: var(--c-primary-400);
-      }
-      td.partial {
-        color: var(--c-warning-600);
-      }
-      thead th.ours {
-        color: var(--c-primary-600);
-        background: var(--c-primary-50);
-      }
-      [data-theme="dark"] thead th.ours {
-        background: var(--c-gray-800);
-        color: var(--c-primary-400);
-      }
-
-      /* active tab */
-      .tab-btn.active {
-        background: var(--c-primary-50);
-        border-color: var(--c-primary-500);
-        color: var(--c-primary-600);
-      }
-      [data-theme="dark"] .tab-btn.active {
-        background: var(--c-gray-800);
-        color: var(--c-primary-400);
-        border-color: var(--c-primary-400);
-      }
-
-      /* copy button copied state */
-      .copy-btn.copied {
-        color: var(--c-success-600);
-        border-color: var(--c-success-500);
-      }
-
-      /* hero accent text */
-      .accent {
-        color: var(--c-primary-600);
-      }
-      [data-theme="dark"] .accent {
-        color: var(--c-primary-400);
-      }
-
-      /* section divider */
-      .divider {
-        border-top: 1px solid var(--c-border);
-      }
-
-      /* scroll offset for sticky nav */
-      .anchor {
-        scroll-margin-top: 80px;
-      }
-
-      /* pre overflow */
-      pre {
-        overflow-x: auto;
-        line-height: 1.8;
-      }
-
-      /* table responsive */
-      .table-scroll {
-        overflow-x: auto;
-      }
-
-      /* feature card hover border */
-      .feature-card:hover {
-        border-color: var(--c-primary-500);
-      }
-
-      /* nav icon hover */
-      .nav-icon:hover {
-        border-color: var(--c-primary-500);
-        color: var(--c-primary-600);
-      }
-
-      /* result card key color */
-      .rkey {
-        color: var(--c-primary-600);
-        font-family: "JetBrains Mono", monospace;
-      }
-      [data-theme="dark"] .rkey {
-        color: var(--c-primary-400);
-      }
-
-      /* badge pill */
-      .badge-pill {
-        display: inline-block;
-        font-size: 11px;
-        font-weight: 500;
-        padding: 3px 10px;
-        border-radius: 9999px;
-        background: var(--c-gray-100);
-        border: 1px solid var(--c-border);
-        color: var(--c-muted);
-      }
-      [data-theme="dark"] .badge-pill {
-        background: var(--c-gray-800);
-      }
-
-      /* hero badge */
-      .hero-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 12px;
-        font-weight: 500;
-        color: var(--c-primary-600);
-        background: var(--c-primary-50);
-        border: 1px solid var(--c-primary-500);
-        border-radius: 9999px;
-        padding: 4px 14px;
-      }
-      [data-theme="dark"] .hero-badge {
-        background: var(--c-gray-800);
-        color: var(--c-primary-400);
-        border-color: var(--c-primary-400);
-      }
-
-      /* api table first col mono */
-      .api-table td:first-child {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 12px;
-        color: var(--c-primary-600);
-        white-space: nowrap;
-      }
-      .api-table td:nth-child(2) {
-        font-family: "JetBrains Mono", monospace;
-        font-size: 11px;
-        white-space: nowrap;
-      }
-      [data-theme="dark"] .api-table td:first-child {
-        color: var(--c-primary-400);
-      }
-
-      /* install strip */
-      .install-cmd span {
-        color: var(--c-primary-600);
-      }
-      [data-theme="dark"] .install-cmd span {
-        color: var(--c-primary-400);
-      }
-    </style>
+    <link rel="stylesheet" href="style.css" />
+    <script src="main.js"></script>
   </head>
   <body class="c-bg-base c-text-fg c-transition-colors">
-    <!-- ── Nav ──────────────────────────────────────────────── -->
-    <nav
-      class="nav c-bg-base c-border-b c-px-8 c-flex c-items-center c-gap-4"
-      style="height: 60px"
-    >
-      <a
-        href="#"
-        class="c-flex c-items-center c-gap-2 c-text-sm c-font-semibold c-text-fg"
-        style="text-decoration: none"
+    <nav class="nav-sticky c-border-b c-border-base c-bg-base c-shadow-sm">
+      <div
+        class="c-container c-flex c-items-center c-justify-between c-gap-4 c-py-3"
       >
-        <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
-          <rect width="20" height="20" rx="5" fill="var(--c-primary-600)" />
-          <path
-            d="M5 10h10M5 7h6M5 13h8"
-            stroke="#fff"
-            stroke-width="1.5"
-            stroke-linecap="round"
-          />
-        </svg>
-        fluxgrid<span class="accent">-data</span>
-      </a>
+        <a
+          href="#home"
+          class="c-flex c-items-center c-gap-2 c-flex-shrink-0"
+          style="text-decoration: none"
+        >
+          <svg width="22" height="22" viewBox="0 0 20 20" fill="none">
+            <rect width="20" height="20" rx="5" fill="var(--c-primary-500)" />
+            <path
+              d="M5 10h10M5 7h6M5 13h8"
+              stroke="#fff"
+              stroke-width="1.5"
+              stroke-linecap="round"
+            />
+          </svg>
+          <span class="c-font-bold c-text-base c-text-fg"
+            >fluxgrid<span class="hero-accent">-data</span></span
+          >
+        </a>
 
-      <ul
-        class="c-flex c-gap-6 c-ml-8 c-hidden c-md-flex"
-        style="list-style: none"
-      >
-        <li>
-          <a
-            href="#install"
-            class="c-text-sm c-text-muted c-transition"
-            style="text-decoration: none"
-            >Install</a
-          >
-        </li>
-        <li>
-          <a
-            href="#usage"
-            class="c-text-sm c-text-muted c-transition"
-            style="text-decoration: none"
-            >Usage</a
-          >
-        </li>
-        <li>
-          <a
-            href="#api"
-            class="c-text-sm c-text-muted c-transition"
-            style="text-decoration: none"
-            >API</a
-          >
-        </li>
-        <li>
-          <a
-            href="#examples"
-            class="c-text-sm c-text-muted c-transition"
-            style="text-decoration: none"
-            >Examples</a
-          >
-        </li>
-        <li>
-          <a
-            href="#compare"
-            class="c-text-sm c-text-muted c-transition"
-            style="text-decoration: none"
-            >Compare</a
-          >
-        </li>
-      </ul>
+        <ul class="c-flex c-gap-6 hide-mobile" style="list-style: none">
+          <li>
+            <a
+              href="#install"
+              class="c-text-sm c-text-muted c-transition"
+              style="text-decoration: none"
+              >Install</a
+            >
+          </li>
+          <li>
+            <a
+              href="#usage"
+              class="c-text-sm c-text-muted c-transition"
+              style="text-decoration: none"
+              >Usage</a
+            >
+          </li>
+          <li>
+            <a
+              href="#examples"
+              class="c-text-sm c-text-muted c-transition"
+              style="text-decoration: none"
+              >Examples</a
+            >
+          </li>
+          <li>
+            <a
+              href="#api"
+              class="c-text-sm c-text-muted c-transition"
+              style="text-decoration: none"
+              >API</a
+            >
+          </li>
+          <li>
+            <a
+              href="#compare"
+              class="c-text-sm c-text-muted c-transition"
+              style="text-decoration: none"
+              >Compare</a
+            >
+          </li>
+        </ul>
 
-      <div class="c-flex c-items-center c-gap-3 c-ml-auto">
-        <a
-          href="https://github.com/vimalkrml/fluxgrid-data"
-          target="_blank"
-          class="nav-icon c-flex c-items-center c-justify-center c-border c-rounded c-text-muted c-cursor-pointer c-transition"
-          style="width: 34px; height: 34px; text-decoration: none"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"
-            />
-          </svg>
-        </a>
-        <a
-          href="https://www.npmjs.com/package/@datafluxgrid/fluxgrid-data"
-          target="_blank"
-          class="nav-icon c-flex c-items-center c-justify-center c-border c-rounded c-text-muted c-cursor-pointer c-transition"
-          style="width: 34px; height: 34px; text-decoration: none"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331z"
-            />
-          </svg>
-        </a>
-        <a
-          href="https://www.linkedin.com/company/datafluxgrid/"
-          target="_blank"
-          class="nav-icon c-flex c-items-center c-justify-center c-border c-rounded c-text-muted c-cursor-pointer c-transition"
-          style="width: 34px; height: 34px; text-decoration: none"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path
-              d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
-            />
-          </svg>
-        </a>
-        <button
-          onclick="toggleTheme()"
-          aria-label="Toggle theme"
-          class="nav-icon c-flex c-items-center c-justify-center c-border c-rounded c-text-muted c-cursor-pointer c-transition"
-          style="width: 34px; height: 34px; background: transparent"
-        >
-          <span id="theme-icon">☀️</span>
-        </button>
-        <a
-          href="https://www.npmjs.com/package/@datafluxgrid/fluxgrid-data"
-          target="_blank"
-          class="c-btn c-btn-primary c-text-xs"
-          >npm →</a
-        >
+        <div class="c-flex c-items-center c-gap-2 c-flex-shrink-0">
+          <a
+            href="https://github.com/vimalkrml/fluxgrid-data"
+            target="_blank"
+            class="nav-icon-btn c-text-muted c-border c-border-base c-rounded"
+            aria-label="GitHub"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://www.npmjs.com/package/@datafluxgrid/fluxgrid-data"
+            target="_blank"
+            class="nav-icon-btn c-text-muted c-border c-border-base c-rounded"
+            aria-label="npm"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331z"
+              />
+            </svg>
+          </a>
+          <a
+            href="https://www.linkedin.com/company/datafluxgrid/"
+            target="_blank"
+            class="nav-icon-btn c-text-muted c-border c-border-base c-rounded"
+            aria-label="LinkedIn"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+              />
+            </svg>
+          </a>
+          <button
+            onclick="toggleTheme()"
+            class="nav-icon-btn c-text-muted c-border c-border-base c-rounded"
+            aria-label="Toggle theme"
+          >
+            <span id="theme-icon"></span>
+          </button>
+          <a
+            href="https://www.npmjs.com/package/@datafluxgrid/fluxgrid-data"
+            target="_blank"
+            class="c-btn c-btn-primary c-btn-sm c-flex c-items-center c-gap-1"
+          >
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331z"
+              />
+            </svg>
+            npm
+          </a>
+        </div>
       </div>
     </nav>
 
-    <!-- ── Hero ─────────────────────────────────────────────── -->
-    <section class="anchor c-py-24 c-text-center" id="home">
+    <section class="anchor c-py-20 c-md-py-24 c-text-center" id="home">
       <div class="c-container">
-        <div class="c-flex c-justify-center c-mb-6">
+        <div class="c-mb-6 c-animate-fade-in-down">
           <span class="hero-badge">
-            <svg width="8" height="8" viewBox="0 0 8 8" fill="currentColor">
-              <circle cx="4" cy="4" r="4" />
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="currentColor">
+              <circle cx="5" cy="5" r="5" />
             </svg>
             @datafluxgrid/fluxgrid-data
           </span>
         </div>
         <h1
-          class="c-text-5xl c-font-bold c-mb-5 c-tracking-tight"
+          class="c-text-4xl c-md-text-5xl c-font-black c-tracking-tight c-mb-6 c-animate-fade-in-up c-animate-delay-100 hero-h1"
           style="line-height: 1.15"
         >
-          The query layer for<br /><span class="accent">frontend arrays</span>
+          The query layer for<br /><span class="hero-accent"
+            >frontend arrays</span
+          >
         </h1>
         <p
-          class="c-text-lg c-text-muted c-mb-10 c-mx-auto"
+          class="c-text-lg c-text-muted c-mb-10 c-mx-auto c-animate-fade-in-up c-animate-delay-200"
           style="max-width: 560px; line-height: 1.7"
         >
           Define your search, sort, filter, and pagination rules once. Run them
           anywhere. Get back everything your UI needs in one call.
         </p>
-        <div class="c-flex c-justify-center c-gap-3 c-flex-wrap c-mb-16">
-          <a class="c-btn c-btn-primary" href="#install">Get started →</a>
+        <div
+          class="c-flex c-justify-center c-gap-3 c-flex-wrap c-mb-14 c-animate-fade-in-up c-animate-delay-300"
+        >
+          <a class="c-btn c-btn-primary c-btn-lg" href="#install">
+            Get started
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
           <a
-            class="c-btn c-btn-outline"
+            class="c-btn c-btn-secondary c-btn-lg"
             href="https://github.com/vimalkrml/fluxgrid-data"
             target="_blank"
             >View on GitHub</a
           >
         </div>
+
         <div
-          class="c-flex c-justify-center c-gap-16 c-flex-wrap c-pt-10 c-border-t"
+          class="c-inline-flex c-items-center c-gap-3 c-px-5 c-py-3 c-rounded-xl c-font-mono c-text-sm c-mb-14 c-animate-scale-in c-animate-delay-300"
+          style="
+            background: var(--c-gray-950);
+            border: 1px solid var(--c-gray-800);
+            max-width: 100%;
+          "
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--c-primary-400)"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            style="flex-shrink: 0"
+          >
+            <path d="M12 19h8" />
+            <path d="m4 17 6-6-6-6" />
+          </svg>
+          <span style="color: var(--c-gray-500)">$</span>
+          <span style="color: var(--c-gray-100)"
+            >npm install @datafluxgrid/fluxgrid-data</span
+          >
+        </div>
+
+        <div
+          class="c-flex c-justify-center c-gap-12 c-flex-wrap c-pt-10 c-border-t c-border-base hero-stats c-animate-fade-in-up c-animate-delay-500"
         >
           <div class="c-text-center">
-            <div class="c-text-4xl c-font-bold c-text-fg">~1 kB</div>
-            <div
-              class="c-text-xs c-text-muted c-mt-1 c-uppercase c-tracking-wider"
-            >
-              Minzipped
-            </div>
+            <div class="stat-val">~1 kB</div>
+            <div class="stat-label">Minzipped</div>
           </div>
           <div class="c-text-center">
-            <div class="c-text-4xl c-font-bold c-text-fg">0</div>
-            <div
-              class="c-text-xs c-text-muted c-mt-1 c-uppercase c-tracking-wider"
-            >
-              Dependencies
-            </div>
+            <div class="stat-val">0</div>
+            <div class="stat-label">Dependencies</div>
           </div>
           <div class="c-text-center">
-            <div class="c-text-4xl c-font-bold c-text-fg">17</div>
-            <div
-              class="c-text-xs c-text-muted c-mt-1 c-uppercase c-tracking-wider"
-            >
-              Result fields
-            </div>
+            <div class="stat-val">17</div>
+            <div class="stat-label">Result fields</div>
           </div>
           <div class="c-text-center">
-            <div class="c-text-4xl c-font-bold c-text-fg">~5</div>
-            <div
-              class="c-text-xs c-text-muted c-mt-1 c-uppercase c-tracking-wider"
-            >
-              Lines to setup
-            </div>
+            <div class="stat-val">~5</div>
+            <div class="stat-label">Lines to setup</div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="divider"></div>
-
-    <!-- ── Install ───────────────────────────────────────────── -->
-    <section class="anchor c-py-20" id="install">
+    <section class="anchor c-py-20 c-border-t c-border-base" id="install">
       <div class="c-container">
-        <p
-          class="c-text-xs c-font-semibold c-uppercase c-tracking-wider accent c-mb-2"
-        >
-          Installation
-        </p>
-        <h2 class="c-text-3xl c-font-bold c-tracking-tight c-mb-3">
+        <div class="section-label">Installation</div>
+        <h2 class="c-text-3xl c-font-black c-tracking-tight c-mb-3">
           Get started in seconds
         </h2>
         <p
@@ -433,54 +274,34 @@
           style="max-width: 520px; line-height: 1.7"
         >
           Zero dependencies. Works with any JavaScript environment — no adapter,
-          no build config.
+          no build config required.
         </p>
 
-        <div
-          class="c-flex c-items-center c-justify-between c-flex-wrap c-gap-4 c-bg-gray-100 c-border c-rounded-md c-p-4 c-mb-8 install-cmd"
-        >
-          [data-theme="dark"] & { background: var(--c-gray-900); }
-          <code class="c-font-mono c-text-sm c-text-fg"
-            ><span>npm</span> install @datafluxgrid/fluxgrid-data</code
+        <div class="install-wrap c-mb-8">
+          <code class="install-cmd"
+            ><b>npm</b> install @datafluxgrid/fluxgrid-data</code
           >
           <button
-            class="c-btn c-btn-secondary c-btn-sm copy-btn"
+            class="copy-btn"
             onclick="copyText(this, 'npm install @datafluxgrid/fluxgrid-data')"
           >
             Copy
           </button>
         </div>
 
-        <p
-          class="c-text-xs c-font-semibold c-uppercase c-tracking-wider accent c-mb-3"
-        >
-          CDN — no build step
-        </p>
-        <div class="c-border c-rounded-md c-overflow-hidden c-mb-6">
-          <div
-            class="c-flex c-items-center c-justify-between c-px-4 c-py-2 c-bg-gray-100 c-border-b"
-          >
-            <span
-              class="c-text-xs c-font-medium c-text-muted c-uppercase c-tracking-wider"
-              >HTML</span
-            >
-            <button
-              class="c-btn c-btn-secondary c-btn-xs copy-btn"
-              onclick="copyCode(this)"
-            >
-              Copy
-            </button>
+        <div class="section-label c-mt-8">CDN — no build step</div>
+        <div class="code-wrap">
+          <div class="code-header">
+            <span class="code-lang">HTML</span>
+            <button class="copy-btn" onclick="copyCode(this)">Copy</button>
           </div>
-          <pre
-            class="c-bg-gray-50 c-p-4 c-font-mono c-text-sm c-text-fg"
-          >&lt;<span class="kw">script</span> <span class="prop">src</span>=<span class="str">"https://cdn.jsdelivr.net/npm/@datafluxgrid/fluxgrid-data/dist/index.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
-<span class="cmt">&lt;!-- createQuery available as global --&gt;</span>
+          <pre>&lt;<span class="kw">script</span> <span class="prop">src</span>=<span class="str">"https://cdn.jsdelivr.net/npm/@datafluxgrid/fluxgrid-data/dist/index.js"</span>&gt;&lt;/<span class="kw">script</span>&gt;
 &lt;<span class="kw">script</span>&gt;
   <span class="kw">const</span> q = <span class="fn">createQuery</span>({ <span class="prop">search</span>: [<span class="str">'name'</span>], <span class="prop">pageSize</span>: <span class="str">10</span> });
 &lt;/<span class="kw">script</span>&gt;</pre>
         </div>
 
-        <div class="c-flex c-gap-2 c-flex-wrap">
+        <div class="c-flex c-gap-2 c-flex-wrap c-mt-6">
           <span class="badge-pill">JavaScript</span>
           <span class="badge-pill">TypeScript</span>
           <span class="badge-pill">React</span>
@@ -494,17 +315,10 @@
       </div>
     </section>
 
-    <div class="divider"></div>
-
-    <!-- ── Usage ─────────────────────────────────────────────── -->
-    <section class="anchor c-py-20" id="usage">
+    <section class="anchor c-py-20 c-border-t c-border-base" id="usage">
       <div class="c-container">
-        <p
-          class="c-text-xs c-font-semibold c-uppercase c-tracking-wider accent c-mb-2"
-        >
-          Quick Start
-        </p>
-        <h2 class="c-text-3xl c-font-bold c-tracking-tight c-mb-3">
+        <div class="section-label">Quick Start</div>
+        <h2 class="c-text-3xl c-font-black c-tracking-tight c-mb-3">
           One query. One call. Everything back.
         </h2>
         <p
@@ -515,23 +329,18 @@
           in every component. With it, you write it once.
         </p>
 
-        <div class="c-row c-gap-4 c-mb-10">
-          <div class="c-col-12 c-col-md-6">
+        <div class="two-col c-mb-10">
+          <div>
             <p
-              class="c-text-xs c-font-semibold c-uppercase c-tracking-wider c-text-muted c-mb-3"
+              class="c-text-xs c-font-bold c-uppercase c-tracking-wide c-text-muted c-mb-3"
             >
               Without fluxgrid-data
             </p>
-            <div class="c-border c-rounded-md c-overflow-hidden">
-              <div class="c-px-4 c-py-2 c-bg-gray-100 c-border-b">
-                <span
-                  class="c-text-xs c-font-medium c-text-muted c-uppercase c-tracking-wider"
-                  >JS — copy-pasted everywhere</span
-                >
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">JS — copy-pasted everywhere</span>
               </div>
-              <pre
-                class="c-bg-gray-50 c-p-4 c-font-mono c-text-sm c-text-fg"
-              ><span class="kw">const</span> filtered = users
+              <pre><span class="kw">const</span> filtered = users
   .<span class="fn">filter</span>(u => u.name
     .toLowerCase().includes(term))
   .<span class="fn">sort</span>((a,b) =>
@@ -543,33 +352,21 @@
   (page-<span class="str">1</span>)*<span class="str">10</span>, page*<span class="str">10</span>);
 <span class="kw">const</span> hasNext = page &lt; pages;
 <span class="kw">const</span> hasPrev = page &gt; <span class="str">1</span>;
-<span class="cmt">// isEmpty, isNoResults still missing</span></pre>
+<span class="cmt">// isEmpty, isNoResults missing</span></pre>
             </div>
           </div>
-          <div class="c-col-12 c-col-md-6">
+          <div>
             <p
-              class="c-text-xs c-font-semibold c-uppercase c-tracking-wider accent c-mb-3"
+              class="c-text-xs c-font-bold c-uppercase c-tracking-wide c-mb-3 hero-accent"
             >
               With fluxgrid-data
             </p>
-            <div class="c-border c-rounded-md c-overflow-hidden">
-              <div
-                class="c-flex c-items-center c-justify-between c-px-4 c-py-2 c-bg-gray-100 c-border-b"
-              >
-                <span
-                  class="c-text-xs c-font-medium c-text-muted c-uppercase c-tracking-wider"
-                  >JS — defined once</span
-                >
-                <button
-                  class="c-btn c-btn-secondary c-btn-xs copy-btn"
-                  onclick="copyCode(this)"
-                >
-                  Copy
-                </button>
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">JS — defined once</span>
+                <button class="copy-btn" onclick="copyCode(this)">Copy</button>
               </div>
-              <pre
-                class="c-bg-gray-50 c-p-4 c-font-mono c-text-sm c-text-fg"
-              ><span class="kw">import</span> { createQuery } <span class="kw">from</span>
+              <pre><span class="kw">import</span> { createQuery } <span class="kw">from</span>
   <span class="str">'@datafluxgrid/fluxgrid-data'</span>;
 
 <span class="kw">const</span> userQuery = <span class="fn">createQuery</span>({
@@ -586,93 +383,80 @@
           </div>
         </div>
 
-        <p
-          class="c-text-xs c-font-semibold c-uppercase c-tracking-wider accent c-mb-4"
-        >
+        <div class="section-label">
           Result object — every field your UI needs
-        </p>
-        <div class="c-grid c-grid-cols-2 c-md-grid-cols-3 c-gap-3">
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.data</div>
-            <div class="c-text-xs c-text-muted c-mb-1">T[]</div>
-            <div class="c-text-xs c-text-muted">Records for current page</div>
-          </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.total</div>
-            <div class="c-text-xs c-text-muted c-mb-1">number</div>
-            <div class="c-text-xs c-text-muted">Total matching records</div>
-          </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.from / .to</div>
-            <div class="c-text-xs c-text-muted c-mb-1">number</div>
-            <div class="c-text-xs c-text-muted">For "Showing 21–30 of 247"</div>
-          </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.hasNext</div>
-            <div class="c-text-xs c-text-muted c-mb-1">boolean</div>
-            <div class="c-text-xs c-text-muted">
-              Enable / disable Next button
+        </div>
+        <div class="result-grid">
+          <div class="result-card">
+            <div class="result-key">result.data</div>
+            <div class="result-type">T[]</div>
+            <div class="result-desc">
+              Records for current page — render this
             </div>
           </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.hasPrev</div>
-            <div class="c-text-xs c-text-muted c-mb-1">boolean</div>
-            <div class="c-text-xs c-text-muted">
-              Enable / disable Prev button
-            </div>
+          <div class="result-card">
+            <div class="result-key">result.total</div>
+            <div class="result-type">number</div>
+            <div class="result-desc">Total matching records</div>
           </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.isEmpty</div>
-            <div class="c-text-xs c-text-muted c-mb-1">boolean</div>
-            <div class="c-text-xs c-text-muted">No data, no search</div>
+          <div class="result-card">
+            <div class="result-key">result.from / .to</div>
+            <div class="result-type">number</div>
+            <div class="result-desc">For "Showing 21–30 of 247"</div>
           </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.isNoResults</div>
-            <div class="c-text-xs c-text-muted c-mb-1">boolean</div>
-            <div class="c-text-xs c-text-muted">Search returned nothing</div>
+          <div class="result-card">
+            <div class="result-key">result.hasNext</div>
+            <div class="result-type">boolean</div>
+            <div class="result-desc">Enable / disable Next button</div>
           </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.allSelected</div>
-            <div class="c-text-xs c-text-muted c-mb-1">boolean</div>
-            <div class="c-text-xs c-text-muted">All rows on page checked</div>
+          <div class="result-card">
+            <div class="result-key">result.hasPrev</div>
+            <div class="result-type">boolean</div>
+            <div class="result-desc">Enable / disable Prev button</div>
           </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.someSelected</div>
-            <div class="c-text-xs c-text-muted c-mb-1">boolean</div>
-            <div class="c-text-xs c-text-muted">
-              Indeterminate checkbox state
-            </div>
+          <div class="result-card">
+            <div class="result-key">result.isEmpty</div>
+            <div class="result-type">boolean</div>
+            <div class="result-desc">No data and no search</div>
           </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.sortField</div>
-            <div class="c-text-xs c-text-muted c-mb-1">string</div>
-            <div class="c-text-xs c-text-muted">Show sort arrow on header</div>
+          <div class="result-card">
+            <div class="result-key">result.isNoResults</div>
+            <div class="result-type">boolean</div>
+            <div class="result-desc">Search returned nothing</div>
           </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.term</div>
-            <div class="c-text-xs c-text-muted c-mb-1">string</div>
-            <div class="c-text-xs c-text-muted">Highlight matched text</div>
+          <div class="result-card">
+            <div class="result-key">result.allSelected</div>
+            <div class="result-type">boolean</div>
+            <div class="result-desc">All rows on page checked</div>
           </div>
-          <div class="c-bg-gray-50 c-border c-rounded c-p-3">
-            <div class="rkey c-text-xs c-mb-1">result.ms</div>
-            <div class="c-text-xs c-text-muted c-mb-1">number</div>
-            <div class="c-text-xs c-text-muted">Query time in milliseconds</div>
+          <div class="result-card">
+            <div class="result-key">result.someSelected</div>
+            <div class="result-type">boolean</div>
+            <div class="result-desc">Indeterminate checkbox state</div>
+          </div>
+          <div class="result-card">
+            <div class="result-key">result.sortField</div>
+            <div class="result-type">string</div>
+            <div class="result-desc">Show sort arrow on header</div>
+          </div>
+          <div class="result-card">
+            <div class="result-key">result.term</div>
+            <div class="result-type">string</div>
+            <div class="result-desc">Highlight matched text</div>
+          </div>
+          <div class="result-card">
+            <div class="result-key">result.ms</div>
+            <div class="result-type">number</div>
+            <div class="result-desc">Query time in milliseconds</div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="divider"></div>
-
-    <!-- ── Examples ──────────────────────────────────────────── -->
-    <section class="anchor c-py-20" id="examples">
+    <section class="anchor c-py-20 c-border-t c-border-base" id="examples">
       <div class="c-container">
-        <p
-          class="c-text-xs c-font-semibold c-uppercase c-tracking-wider accent c-mb-2"
-        >
-          Examples
-        </p>
-        <h2 class="c-text-3xl c-font-bold c-tracking-tight c-mb-3">
+        <div class="section-label">Examples</div>
+        <h2 class="c-text-3xl c-font-black c-tracking-tight c-mb-3">
           Real use cases
         </h2>
         <p
@@ -682,61 +466,49 @@
           The same createQuery API handles every common frontend data pattern.
         </p>
 
-        <div class="c-flex c-gap-2 c-flex-wrap c-mb-6">
-          <button
-            class="c-btn c-btn-secondary c-btn-sm tab-btn active"
-            onclick="switchTab(this, 'tab-react')"
-          >
-            React table
-          </button>
-          <button
-            class="c-btn c-btn-secondary c-btn-sm tab-btn"
-            onclick="switchTab(this, 'tab-ts')"
-          >
-            TypeScript
-          </button>
-          <button
-            class="c-btn c-btn-secondary c-btn-sm tab-btn"
-            onclick="switchTab(this, 'tab-groupby')"
-          >
-            GroupBy
-          </button>
-          <button
-            class="c-btn c-btn-secondary c-btn-sm tab-btn"
-            onclick="switchTab(this, 'tab-serial')"
-          >
-            Serializable
-          </button>
-          <button
-            class="c-btn c-btn-secondary c-btn-sm tab-btn"
-            onclick="switchTab(this, 'tab-vue')"
-          >
-            Vue 3
-          </button>
-        </div>
-
-        <div id="tab-react" class="tab-panel active">
-          <div class="c-border c-rounded-md c-overflow-hidden">
-            <div
-              class="c-flex c-items-center c-justify-between c-px-4 c-py-2 c-bg-gray-100 c-border-b"
+        <div class="tab-group">
+          <div class="c-flex c-gap-2 c-flex-wrap c-mb-6">
+            <button
+              class="tab-btn c-btn c-btn-sm c-border c-bg-primary-500 c-text-white c-border-primary-500"
+              onclick="switchTab(this, 'tab-react')"
             >
-              <span
-                class="c-text-xs c-font-medium c-text-muted c-uppercase c-tracking-wider"
-                >React — UsersTable.jsx</span
-              >
-              <button
-                class="c-btn c-btn-secondary c-btn-xs copy-btn"
-                onclick="copyCode(this)"
-              >
-                Copy
-              </button>
-            </div>
-            <pre
-              class="c-bg-gray-50 c-p-4 c-font-mono c-text-sm c-text-fg"
-            ><span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">'react'</span>;
+              React table
+            </button>
+            <button
+              class="tab-btn c-btn c-btn-sm c-border c-text-muted c-border-base"
+              onclick="switchTab(this, 'tab-ts')"
+            >
+              TypeScript
+            </button>
+            <button
+              class="tab-btn c-btn c-btn-sm c-border c-text-muted c-border-base"
+              onclick="switchTab(this, 'tab-groupby')"
+            >
+              GroupBy
+            </button>
+            <button
+              class="tab-btn c-btn c-btn-sm c-border c-text-muted c-border-base"
+              onclick="switchTab(this, 'tab-serial')"
+            >
+              Serializable
+            </button>
+            <button
+              class="tab-btn c-btn c-btn-sm c-border c-text-muted c-border-base"
+              onclick="switchTab(this, 'tab-vue')"
+            >
+              Vue 3
+            </button>
+          </div>
+
+          <div id="tab-react" class="tab-panel active">
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">React — UsersTable.jsx</span
+                ><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="kw">import</span> { useState } <span class="kw">from</span> <span class="str">'react'</span>;
 <span class="kw">import</span> { createQuery } <span class="kw">from</span> <span class="str">'@datafluxgrid/fluxgrid-data'</span>;
 
-<span class="cmt">// Defined ONCE — outside the component</span>
 <span class="kw">const</span> userQuery = <span class="fn">createQuery</span>({
   <span class="prop">search</span>:   [<span class="str">'name'</span>, <span class="str">'email'</span>, <span class="str">'department'</span>],
   <span class="prop">sort</span>:     { <span class="prop">field</span>: <span class="str">'name'</span>, <span class="prop">dir</span>: <span class="str">'asc'</span> },
@@ -760,41 +532,33 @@
     &lt;&gt;
       &lt;<span class="kw">input</span> <span class="prop">value</span>={term}
         <span class="prop">onChange</span>={e => { <span class="fn">setTerm</span>(e.target.value); <span class="fn">setPage</span>(<span class="str">1</span>); }} /&gt;
+
       {result.isEmpty     &amp;&amp; &lt;<span class="kw">p</span>&gt;No users yet.&lt;/<span class="kw">p</span>&gt;}
       {result.isNoResults &amp;&amp; &lt;<span class="kw">p</span>&gt;No results for "{result.term}"&lt;/<span class="kw">p</span>&gt;}
+
       &lt;<span class="kw">p</span>&gt;Showing {result.from}–{result.to} of {result.total}&lt;/<span class="kw">p</span>&gt;
+
       {result.data.<span class="fn">map</span>(user => (
         &lt;<span class="kw">tr</span> <span class="prop">key</span>={user.id}&gt;&lt;<span class="kw">td</span>&gt;{user.name}&lt;/<span class="kw">td</span>&gt;&lt;/<span class="kw">tr</span>&gt;
       ))}
+
       &lt;<span class="kw">button</span> <span class="prop">disabled</span>={!result.hasPrev}
-        <span class="prop">onClick</span>={() => <span class="fn">setPage</span>(p => p-<span class="str">1</span>)}&gt;Prev&lt;/<span class="kw">button</span>&gt;
+        <span class="prop">onClick</span>={() => <span class="fn">setPage</span>(p => p - <span class="str">1</span>)}&gt;Prev&lt;/<span class="kw">button</span>&gt;
       &lt;<span class="kw">button</span> <span class="prop">disabled</span>={!result.hasNext}
-        <span class="prop">onClick</span>={() => <span class="fn">setPage</span>(p => p+<span class="str">1</span>)}&gt;Next&lt;/<span class="kw">button</span>&gt;
+        <span class="prop">onClick</span>={() => <span class="fn">setPage</span>(p => p + <span class="str">1</span>)}&gt;Next&lt;/<span class="kw">button</span>&gt;
     &lt;/&gt;
   );
 }</pre>
-          </div>
-        </div>
-
-        <div id="tab-ts" class="tab-panel">
-          <div class="c-border c-rounded-md c-overflow-hidden">
-            <div
-              class="c-flex c-items-center c-justify-between c-px-4 c-py-2 c-bg-gray-100 c-border-b"
-            >
-              <span
-                class="c-text-xs c-font-medium c-text-muted c-uppercase c-tracking-wider"
-                >TypeScript — full type safety</span
-              >
-              <button
-                class="c-btn c-btn-secondary c-btn-xs copy-btn"
-                onclick="copyCode(this)"
-              >
-                Copy
-              </button>
             </div>
-            <pre
-              class="c-bg-gray-50 c-p-4 c-font-mono c-text-sm c-text-fg"
-            ><span class="kw">import</span> { createQuery } <span class="kw">from</span> <span class="str">'@datafluxgrid/fluxgrid-data'</span>;
+          </div>
+
+          <div id="tab-ts" class="tab-panel">
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">TypeScript — full type safety</span
+                ><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="kw">import</span> { createQuery } <span class="kw">from</span> <span class="str">'@datafluxgrid/fluxgrid-data'</span>;
 
 <span class="kw">interface</span> <span class="fn">User</span> {
   <span class="prop">id</span>:         number;
@@ -804,7 +568,6 @@
   <span class="prop">salary</span>:     number;
 }
 
-<span class="cmt">// Pass your type — field names autocomplete</span>
 <span class="kw">const</span> userQuery = <span class="fn">createQuery</span>&lt;<span class="fn">User</span>&gt;({
   <span class="prop">search</span>:   [<span class="str">'name'</span>, <span class="str">'department'</span>],
   <span class="prop">sort</span>:     { <span class="prop">field</span>: <span class="str">'salary'</span>, <span class="prop">dir</span>: <span class="str">'desc'</span> },
@@ -812,31 +575,19 @@
 });
 
 <span class="kw">const</span> result = userQuery.<span class="fn">run</span>(users, { term, page });
-<span class="cmt">// result.data     → typed as User[]</span>
-<span class="cmt">// result.total    → typed as number</span>
-<span class="cmt">// result.hasNext  → typed as boolean</span></pre>
-          </div>
-        </div>
-
-        <div id="tab-groupby" class="tab-panel">
-          <div class="c-border c-rounded-md c-overflow-hidden">
-            <div
-              class="c-flex c-items-center c-justify-between c-px-4 c-py-2 c-bg-gray-100 c-border-b"
-            >
-              <span
-                class="c-text-xs c-font-medium c-text-muted c-uppercase c-tracking-wider"
-                >GroupBy — Kanban / Analytics</span
-              >
-              <button
-                class="c-btn c-btn-secondary c-btn-xs copy-btn"
-                onclick="copyCode(this)"
-              >
-                Copy
-              </button>
+<span class="cmt">// result.data    → typed as User[]</span>
+<span class="cmt">// result.total   → typed as number</span>
+<span class="cmt">// result.hasNext → typed as boolean</span></pre>
             </div>
-            <pre
-              class="c-bg-gray-50 c-p-4 c-font-mono c-text-sm c-text-fg"
-            ><span class="kw">const</span> taskQuery = <span class="fn">createQuery</span>({
+          </div>
+
+          <div id="tab-groupby" class="tab-panel">
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">GroupBy — Kanban / Analytics</span
+                ><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="kw">const</span> taskQuery = <span class="fn">createQuery</span>({
   <span class="prop">search</span>:  [<span class="str">'title'</span>, <span class="str">'assignee'</span>],
   <span class="prop">groupBy</span>: <span class="str">'status'</span>,
   <span class="prop">sort</span>:    { <span class="prop">field</span>: <span class="str">'priority'</span>, <span class="prop">dir</span>: <span class="str">'asc'</span> },
@@ -856,64 +607,44 @@ Object.<span class="fn">entries</span>(groups).<span class="fn">map</span>(([sta
     {items.<span class="fn">map</span>(task => &lt;<span class="fn">TaskCard</span> <span class="prop">task</span>={task} /&gt;)}
   &lt;/<span class="kw">section</span>&gt;
 ))</pre>
-          </div>
-        </div>
-
-        <div id="tab-serial" class="tab-panel">
-          <div class="c-border c-rounded-md c-overflow-hidden">
-            <div
-              class="c-flex c-items-center c-justify-between c-px-4 c-py-2 c-bg-gray-100 c-border-b"
-            >
-              <span
-                class="c-text-xs c-font-medium c-text-muted c-uppercase c-tracking-wider"
-                >Serializable pipelines — save &amp; restore</span
-              >
-              <button
-                class="c-btn c-btn-secondary c-btn-xs copy-btn"
-                onclick="copyCode(this)"
-              >
-                Copy
-              </button>
             </div>
-            <pre
-              class="c-bg-gray-50 c-p-4 c-font-mono c-text-sm c-text-fg"
-            ><span class="cmt">// Save to localStorage</span>
-<span class="kw">const</span> saved = userQuery.<span class="fn">toJSON</span>();
+          </div>
+
+          <div id="tab-serial" class="tab-panel">
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang"
+                  >Serializable pipelines — save &amp; restore</span
+                ><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre><span class="kw">const</span> saved = userQuery.<span class="fn">toJSON</span>();
 localStorage.<span class="fn">setItem</span>(<span class="str">'myQuery'</span>, JSON.<span class="fn">stringify</span>(saved));
 
-<span class="cmt">// Restore from anywhere — same result</span>
 <span class="kw">const</span> restored = createQuery.<span class="fn">fromJSON</span>(
   JSON.<span class="fn">parse</span>(localStorage.<span class="fn">getItem</span>(<span class="str">'myQuery'</span>))
 );
 
-<span class="cmt">// What toJSON() produces:</span>
+<span class="cmt">// toJSON() produces:</span>
 <span class="cmt">// {</span>
 <span class="cmt">//   search:   ['name', 'email'],</span>
 <span class="cmt">//   sort:     { field: 'name', dir: 'asc' },</span>
 <span class="cmt">//   pageSize: 10</span>
-<span class="cmt">// }</span></pre>
-          </div>
-        </div>
+<span class="cmt">// }</span>
 
-        <div id="tab-vue" class="tab-panel">
-          <div class="c-border c-rounded-md c-overflow-hidden">
-            <div
-              class="c-flex c-items-center c-justify-between c-px-4 c-py-2 c-bg-gray-100 c-border-b"
-            >
-              <span
-                class="c-text-xs c-font-medium c-text-muted c-uppercase c-tracking-wider"
-                >Vue 3 — computed query</span
-              >
-              <button
-                class="c-btn c-btn-secondary c-btn-xs copy-btn"
-                onclick="copyCode(this)"
-              >
-                Copy
-              </button>
+<span class="cmt">// Use cases:</span>
+<span class="cmt">// — Save user filter view between sessions</span>
+<span class="cmt">// — Share filtered table via URL param</span>
+<span class="cmt">// — Send pipeline to server for execution</span></pre>
             </div>
-            <pre
-              class="c-bg-gray-50 c-p-4 c-font-mono c-text-sm c-text-fg"
-            >&lt;<span class="kw">script</span> <span class="prop">setup</span>&gt;
+          </div>
+
+          <div id="tab-vue" class="tab-panel">
+            <div class="code-wrap">
+              <div class="code-header">
+                <span class="code-lang">Vue 3 — computed query</span
+                ><button class="copy-btn" onclick="copyCode(this)">Copy</button>
+              </div>
+              <pre>&lt;<span class="kw">script</span> <span class="prop">setup</span>&gt;
 <span class="kw">import</span> { ref, computed } <span class="kw">from</span> <span class="str">'vue'</span>;
 <span class="kw">import</span> { createQuery } <span class="kw">from</span> <span class="str">'@datafluxgrid/fluxgrid-data'</span>;
 
@@ -940,22 +671,16 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'myQuery'</span>,
   &lt;<span class="kw">button</span> :<span class="prop">disabled</span>=<span class="str">"!result.hasPrev"</span> @<span class="prop">click</span>=<span class="str">"page--"</span>&gt;Prev&lt;/<span class="kw">button</span>&gt;
   &lt;<span class="kw">button</span> :<span class="prop">disabled</span>=<span class="str">"!result.hasNext"</span> @<span class="prop">click</span>=<span class="str">"page++"</span>&gt;Next&lt;/<span class="kw">button</span>&gt;
 &lt;/<span class="kw">template</span>&gt;</pre>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="divider"></div>
-
-    <!-- ── API ───────────────────────────────────────────────── -->
-    <section class="anchor c-py-20" id="api">
+    <section class="anchor c-py-20 c-border-t c-border-base" id="api">
       <div class="c-container">
-        <p
-          class="c-text-xs c-font-semibold c-uppercase c-tracking-wider accent c-mb-2"
-        >
-          API Reference
-        </p>
-        <h2 class="c-text-3xl c-font-bold c-tracking-tight c-mb-3">
+        <div class="section-label">API Reference</div>
+        <h2 class="c-text-3xl c-font-black c-tracking-tight c-mb-3">
           Complete API
         </h2>
         <p
@@ -965,65 +690,45 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'myQuery'</span>,
           Two functions. One config object. One options object.
         </p>
 
-        <p class="c-text-sm c-font-semibold c-text-fg c-mb-3">
+        <p class="c-text-sm c-font-bold c-text-fg c-mb-3">
           createQuery(config)
         </p>
-        <div
-          class="c-border c-rounded-md c-overflow-hidden c-mb-8 table-scroll"
-        >
-          <table class="api-table c-w-100">
+        <div class="api-wrap">
+          <table class="api-table">
             <thead>
-              <tr class="c-bg-gray-100 c-border-b">
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                >
-                  Option
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                >
-                  Type
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                >
-                  Description
-                </th>
+              <tr>
+                <th>Option</th>
+                <th>Type</th>
+                <th>Description</th>
               </tr>
             </thead>
-            <tbody class="c-divide-y">
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">search</td>
-                <td class="c-px-4 c-py-3 c-text-muted">string[]</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Fields to search across when term is provided
-                </td>
+            <tbody>
+              <tr>
+                <td>search</td>
+                <td>string[]</td>
+                <td>Fields to search across when term is provided</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">sort</td>
-                <td class="c-px-4 c-py-3 c-text-muted">{ field, dir }</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
+              <tr>
+                <td>sort</td>
+                <td>{ field, dir }</td>
+                <td>
                   Default sort field and direction. dir is 'asc' or 'desc'
                 </td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">pageSize</td>
-                <td class="c-px-4 c-py-3 c-text-muted">number</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Records per page. Default is 10
-                </td>
+              <tr>
+                <td>pageSize</td>
+                <td>number</td>
+                <td>Records per page. Default is 10</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">filter</td>
-                <td class="c-px-4 c-py-3 c-text-muted">(item) => boolean</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Static filter applied on every .run() call
-                </td>
+              <tr>
+                <td>filter</td>
+                <td>(item) => boolean</td>
+                <td>Static filter applied on every .run() call</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">groupBy</td>
-                <td class="c-px-4 c-py-3 c-text-muted">string</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
+              <tr>
+                <td>groupBy</td>
+                <td>string</td>
+                <td>
                   Group records by this field. Changes result shape to { groups,
                   total, ms }
                 </td>
@@ -1032,227 +737,153 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'myQuery'</span>,
           </table>
         </div>
 
-        <p class="c-text-sm c-font-semibold c-text-fg c-mb-3">
+        <p class="c-text-sm c-font-bold c-text-fg c-mb-3">
           query.run(data, options)
         </p>
-        <div
-          class="c-border c-rounded-md c-overflow-hidden c-mb-8 table-scroll"
-        >
-          <table class="api-table c-w-100">
+        <div class="api-wrap">
+          <table class="api-table">
             <thead>
-              <tr class="c-bg-gray-100 c-border-b">
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                >
-                  Option
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                >
-                  Type
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                >
-                  Description
-                </th>
+              <tr>
+                <th>Option</th>
+                <th>Type</th>
+                <th>Description</th>
               </tr>
             </thead>
-            <tbody class="c-divide-y">
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">term</td>
-                <td class="c-px-4 c-py-3 c-text-muted">string</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Search term. Empty string means no filter — show all
-                </td>
+            <tbody>
+              <tr>
+                <td>term</td>
+                <td>string</td>
+                <td>Search term. Empty string means no filter — show all</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">page</td>
-                <td class="c-px-4 c-py-3 c-text-muted">number</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Current page number. Starts at 1
-                </td>
+              <tr>
+                <td>page</td>
+                <td>number</td>
+                <td>Current page number. Starts at 1</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">pageSize</td>
-                <td class="c-px-4 c-py-3 c-text-muted">number</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Override pageSize from config for this run
-                </td>
+              <tr>
+                <td>pageSize</td>
+                <td>number</td>
+                <td>Override pageSize from config for this run</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">sortField</td>
-                <td class="c-px-4 c-py-3 c-text-muted">string</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Override sort field from config for this run
-                </td>
+              <tr>
+                <td>sortField</td>
+                <td>string</td>
+                <td>Override sort field from config for this run</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">sortDir</td>
-                <td class="c-px-4 c-py-3 c-text-muted">'asc' | 'desc'</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Override sort direction for this run
-                </td>
+              <tr>
+                <td>sortDir</td>
+                <td>'asc' | 'desc'</td>
+                <td>Override sort direction for this run</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">filterFn</td>
-                <td class="c-px-4 c-py-3 c-text-muted">(item) => boolean</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Dynamic filter — for dropdowns, sliders, toggles
-                </td>
+              <tr>
+                <td>filterFn</td>
+                <td>(item) => boolean</td>
+                <td>Dynamic filter — for dropdowns, sliders, toggles</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">selected</td>
-                <td class="c-px-4 c-py-3 c-text-muted">(string | number)[]</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Selected row IDs for allSelected / someSelected helpers
-                </td>
+              <tr>
+                <td>selected</td>
+                <td>(string | number)[]</td>
+                <td>Selected row IDs for allSelected / someSelected helpers</td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <p class="c-text-sm c-font-semibold c-text-fg c-mb-3">Result object</p>
-        <div class="c-border c-rounded-md c-overflow-hidden table-scroll">
-          <table class="api-table c-w-100">
+        <p class="c-text-sm c-font-bold c-text-fg c-mb-3">Result object</p>
+        <div class="api-wrap">
+          <table class="api-table">
             <thead>
-              <tr class="c-bg-gray-100 c-border-b">
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                >
-                  Field
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                >
-                  Type
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                >
-                  Description
-                </th>
+              <tr>
+                <th>Field</th>
+                <th>Type</th>
+                <th>Description</th>
               </tr>
             </thead>
-            <tbody class="c-divide-y">
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">data</td>
-                <td class="c-px-4 c-py-3 c-text-muted">T[]</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Records for the current page — render this
-                </td>
+            <tbody>
+              <tr>
+                <td>data</td>
+                <td>T[]</td>
+                <td>Records for the current page — render this</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">total</td>
-                <td class="c-px-4 c-py-3 c-text-muted">number</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Total matching records across all pages
-                </td>
+              <tr>
+                <td>total</td>
+                <td>number</td>
+                <td>Total matching records across all pages</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">page</td>
-                <td class="c-px-4 c-py-3 c-text-muted">number</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Current page number
-                </td>
+              <tr>
+                <td>page</td>
+                <td>number</td>
+                <td>Current page number</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">pages</td>
-                <td class="c-px-4 c-py-3 c-text-muted">number</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Total number of pages
-                </td>
+              <tr>
+                <td>pages</td>
+                <td>number</td>
+                <td>Total number of pages</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">pageSize</td>
-                <td class="c-px-4 c-py-3 c-text-muted">number</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Records per page
-                </td>
+              <tr>
+                <td>pageSize</td>
+                <td>number</td>
+                <td>Records per page</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">from</td>
-                <td class="c-px-4 c-py-3 c-text-muted">number</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  First record number — for "Showing 21–30 of 247"
-                </td>
+              <tr>
+                <td>from</td>
+                <td>number</td>
+                <td>First record number — for "Showing 21–30 of 247"</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">to</td>
-                <td class="c-px-4 c-py-3 c-text-muted">number</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Last record number
-                </td>
+              <tr>
+                <td>to</td>
+                <td>number</td>
+                <td>Last record number</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">hasNext</td>
-                <td class="c-px-4 c-py-3 c-text-muted">boolean</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  True if there is a next page
-                </td>
+              <tr>
+                <td>hasNext</td>
+                <td>boolean</td>
+                <td>True if there is a next page</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">hasPrev</td>
-                <td class="c-px-4 c-py-3 c-text-muted">boolean</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  True if there is a previous page
-                </td>
+              <tr>
+                <td>hasPrev</td>
+                <td>boolean</td>
+                <td>True if there is a previous page</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">term</td>
-                <td class="c-px-4 c-py-3 c-text-muted">string</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Active search term — use for highlighting matched text
-                </td>
+              <tr>
+                <td>term</td>
+                <td>string</td>
+                <td>Active search term — use for highlighting matched text</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">sortField</td>
-                <td class="c-px-4 c-py-3 c-text-muted">string</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Active sort field — show sort arrow on column header
-                </td>
+              <tr>
+                <td>sortField</td>
+                <td>string</td>
+                <td>Active sort field — show sort arrow on column header</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">sortDir</td>
-                <td class="c-px-4 c-py-3 c-text-muted">string</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Active sort direction — 'asc' or 'desc'
-                </td>
+              <tr>
+                <td>sortDir</td>
+                <td>string</td>
+                <td>Active sort direction — 'asc' or 'desc'</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">isEmpty</td>
-                <td class="c-px-4 c-py-3 c-text-muted">boolean</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  No data and no term — show empty state illustration
-                </td>
+              <tr>
+                <td>isEmpty</td>
+                <td>boolean</td>
+                <td>No data and no term — show empty state illustration</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">isNoResults</td>
-                <td class="c-px-4 c-py-3 c-text-muted">boolean</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Search returned nothing — show "no results" message
-                </td>
+              <tr>
+                <td>isNoResults</td>
+                <td>boolean</td>
+                <td>Search returned nothing — show "no results" message</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">allSelected</td>
-                <td class="c-px-4 c-py-3 c-text-muted">boolean</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  All rows on current page are selected
-                </td>
+              <tr>
+                <td>allSelected</td>
+                <td>boolean</td>
+                <td>All rows on current page are selected</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">someSelected</td>
-                <td class="c-px-4 c-py-3 c-text-muted">boolean</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Some rows selected — for indeterminate checkbox state
-                </td>
+              <tr>
+                <td>someSelected</td>
+                <td>boolean</td>
+                <td>Some rows selected — for indeterminate checkbox state</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3">ms</td>
-                <td class="c-px-4 c-py-3 c-text-muted">number</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">
-                  Query execution time in milliseconds
-                </td>
+              <tr>
+                <td>ms</td>
+                <td>number</td>
+                <td>Query execution time in milliseconds</td>
               </tr>
             </tbody>
           </table>
@@ -1260,17 +891,10 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'myQuery'</span>,
       </div>
     </section>
 
-    <div class="divider"></div>
-
-    <!-- ── Compare ───────────────────────────────────────────── -->
-    <section class="anchor c-py-20" id="compare">
+    <section class="anchor c-py-20 c-border-t c-border-base" id="compare">
       <div class="c-container">
-        <p
-          class="c-text-xs c-font-semibold c-uppercase c-tracking-wider accent c-mb-2"
-        >
-          Why fluxgrid-data
-        </p>
-        <h2 class="c-text-3xl c-font-bold c-tracking-tight c-mb-3">
+        <div class="section-label">Why fluxgrid-data</div>
+        <h2 class="c-text-3xl c-font-black c-tracking-tight c-mb-3">
           Competitor comparison
         </h2>
         <p
@@ -1280,195 +904,146 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'myQuery'</span>,
           Stop copy-pasting filter logic. One package covers search, sort,
           paginate, group, and gives you full UI meta in every result.
         </p>
-        <div class="c-border c-rounded-md c-overflow-hidden table-scroll">
-          <table
-            class="c-w-100"
-            style="border-collapse: collapse; font-size: 13px"
-          >
+        <div class="table-outer">
+          <table>
             <thead>
-              <tr class="c-bg-gray-100 c-border-b">
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                  style="white-space: nowrap"
-                >
-                  Feature
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-left ours"
-                  style="white-space: nowrap"
-                >
-                  fluxgrid-data
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                  style="white-space: nowrap"
-                >
-                  @tanstack/react-table
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                  style="white-space: nowrap"
-                >
-                  fuse.js
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                  style="white-space: nowrap"
-                >
-                  match-sorter
-                </th>
-                <th
-                  class="c-px-4 c-py-3 c-text-xs c-font-medium c-text-muted c-text-left"
-                  style="white-space: nowrap"
-                >
-                  datapipe-js
-                </th>
+              <tr>
+                <th>Feature</th>
+                <th class="col-ours">fluxgrid-data</th>
+                <th>@tanstack/react-table</th>
+                <th>fuse.js</th>
+                <th>match-sorter</th>
+                <th>datapipe-js</th>
               </tr>
             </thead>
             <tbody>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  Search across fields
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
+              <tr>
+                <td>Search across fields</td>
+                <td class="cell-ours">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">Sort</td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
+              <tr>
+                <td>Sort</td>
+                <td class="cell-ours">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="no">No</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">Paginate</td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
+              <tr>
+                <td>Paginate</td>
+                <td class="cell-ours">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">GroupBy</td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
+              <tr>
+                <td>GroupBy</td>
+                <td class="cell-ours">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
+                <td class="yes">Yes</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  Full meta output (total, from, to, hasNext…)
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No — manual</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
+              <tr>
+                <td>Full meta output (total, from, to, hasNext…)</td>
+                <td class="cell-ours">Yes</td>
+                <td class="no">No — manual</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  isEmpty / isNoResults states
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
+              <tr>
+                <td>isEmpty / isNoResults states</td>
+                <td class="cell-ours">Yes</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  Serializable toJSON() / fromJSON()
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
+              <tr>
+                <td>Checkbox helpers (allSelected / someSelected)</td>
+                <td class="cell-ours">Yes</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  Framework agnostic
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No — adapter</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
+              <tr>
+                <td>Serializable toJSON() / fromJSON()</td>
+                <td class="cell-ours">Yes</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  No columns config required
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No — mandatory</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
+              <tr>
+                <td>Framework agnostic</td>
+                <td class="cell-ours">Yes</td>
+                <td class="no">No — adapter</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  Zero dependencies
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
+              <tr>
+                <td>No columns config required</td>
+                <td class="cell-ours">Yes</td>
+                <td class="no">No — mandatory</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  TypeScript support
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm partial">Partial</td>
+              <tr>
+                <td>Zero dependencies</td>
+                <td class="cell-ours">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  CDN script tag
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
+              <tr>
+                <td>TypeScript support</td>
+                <td class="cell-ours">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="partial">Partial</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  Actively maintained
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm yes">Yes</td>
-                <td class="c-px-4 c-py-3 c-text-sm no">No</td>
+              <tr>
+                <td>CDN script tag</td>
+                <td class="cell-ours">Yes</td>
+                <td class="no">No</td>
+                <td class="yes">Yes</td>
+                <td class="no">No</td>
+                <td class="no">No</td>
               </tr>
-              <tr class="c-border-b c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  Bundle size (minzipped)
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">~1 kB</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">~15–20 kB</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">~5 kB</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">~3 kB</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">~8 kB</td>
+              <tr>
+                <td>Actively maintained</td>
+                <td class="cell-ours">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="yes">Yes</td>
+                <td class="no">No</td>
               </tr>
-              <tr class="c-bg-base">
-                <td class="c-px-4 c-py-3 c-text-sm c-text-fg">
-                  Setup lines of code
-                </td>
-                <td class="c-px-4 c-py-3 c-text-sm ours">~5</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">~40–60</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">~10</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">~5</td>
-                <td class="c-px-4 c-py-3 c-text-sm c-text-muted">~10</td>
+              <tr>
+                <td>Bundle size (minzipped)</td>
+                <td class="cell-ours">~1 kB</td>
+                <td>~15–20 kB</td>
+                <td>~5 kB</td>
+                <td>~3 kB</td>
+                <td>~8 kB</td>
+              </tr>
+              <tr>
+                <td>Setup lines of code</td>
+                <td class="cell-ours">~5</td>
+                <td>~40–60</td>
+                <td>~10</td>
+                <td>~5</td>
+                <td>~10</td>
               </tr>
             </tbody>
           </table>
@@ -1476,17 +1051,10 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'myQuery'</span>,
       </div>
     </section>
 
-    <div class="divider"></div>
-
-    <!-- ── Features ──────────────────────────────────────────── -->
-    <section class="c-py-20">
+    <section class="c-py-20 c-border-t c-border-base">
       <div class="c-container">
-        <p
-          class="c-text-xs c-font-semibold c-uppercase c-tracking-wider accent c-mb-2"
-        >
-          Features
-        </p>
-        <h2 class="c-text-3xl c-font-bold c-tracking-tight c-mb-3">
+        <div class="section-label">Features</div>
+        <h2 class="c-text-3xl c-font-black c-tracking-tight c-mb-3">
           Everything in one call
         </h2>
         <p
@@ -1496,134 +1064,162 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'myQuery'</span>,
           No plugin system. No config objects inside config objects. Every
           feature works out of the box.
         </p>
-        <div class="c-row c-gap-4">
-          <div class="c-col-12 c-col-md-4 c-mb-4">
-            <div
-              class="feature-card c-bg-gray-50 c-border c-rounded-md c-p-6 c-h-100 c-transition"
-            >
-              <div
-                class="c-flex c-items-center c-justify-center c-bg-primary-50 c-rounded c-mb-4"
-                style="width: 36px; height: 36px; font-size: 16px"
+        <div
+          class="c-grid c-gap-4"
+          style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr))"
+        >
+          <div class="feature-card c-p-6 c-rounded-xl c-border c-border-base">
+            <div class="feature-icon-wrap c-bg-primary-50">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--c-primary-600)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               >
-                🔍
-              </div>
-              <p class="c-text-sm c-font-semibold c-text-fg c-mb-2">
-                Multi-field search
-              </p>
-              <p class="c-text-sm c-text-muted c-leading-relaxed">
-                Search across any fields. Case insensitive. Partial match.
-                Active term returned for text highlighting.
-              </p>
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
             </div>
+            <p class="c-text-sm c-font-bold c-text-fg c-mb-2">
+              Multi-field search
+            </p>
+            <p class="c-text-sm c-text-muted c-leading-relaxed">
+              Search across any fields. Case insensitive. Partial match. Active
+              term returned for text highlighting.
+            </p>
           </div>
-          <div class="c-col-12 c-col-md-4 c-mb-4">
-            <div
-              class="feature-card c-bg-gray-50 c-border c-rounded-md c-p-6 c-h-100 c-transition"
-            >
-              <div
-                class="c-flex c-items-center c-justify-center c-bg-primary-50 c-rounded c-mb-4"
-                style="width: 36px; height: 36px; font-size: 16px"
+          <div class="feature-card c-p-6 c-rounded-xl c-border c-border-base">
+            <div class="feature-icon-wrap c-bg-warning-50">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--c-warning-600)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               >
-                ↕️
-              </div>
-              <p class="c-text-sm c-font-semibold c-text-fg c-mb-2">
-                Sort any field
-              </p>
-              <p class="c-text-sm c-text-muted c-leading-relaxed">
-                String and number sorting handled automatically. Override field
-                and direction per run.
-              </p>
+                <path d="M11 5h10M11 9h7M11 13h4M3 17l3 3 3-3M6 20V4" />
+              </svg>
             </div>
+            <p class="c-text-sm c-font-bold c-text-fg c-mb-2">Sort any field</p>
+            <p class="c-text-sm c-text-muted c-leading-relaxed">
+              String and number sorting handled automatically. Override field
+              and direction per run.
+            </p>
           </div>
-          <div class="c-col-12 c-col-md-4 c-mb-4">
-            <div
-              class="feature-card c-bg-gray-50 c-border c-rounded-md c-p-6 c-h-100 c-transition"
-            >
-              <div
-                class="c-flex c-items-center c-justify-center c-bg-primary-50 c-rounded c-mb-4"
-                style="width: 36px; height: 36px; font-size: 16px"
+          <div class="feature-card c-p-6 c-rounded-xl c-border c-border-base">
+            <div class="feature-icon-wrap c-bg-info-50">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--c-info-600)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               >
-                📄
-              </div>
-              <p class="c-text-sm c-font-semibold c-text-fg c-mb-2">
-                Smart pagination
-              </p>
-              <p class="c-text-sm c-text-muted c-leading-relaxed">
-                from, to, hasNext, hasPrev, pages all returned automatically.
-                Out-of-bounds pages clamped safely.
-              </p>
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <path d="M3 9h18M3 15h18M9 3v18" />
+              </svg>
             </div>
+            <p class="c-text-sm c-font-bold c-text-fg c-mb-2">
+              Smart pagination
+            </p>
+            <p class="c-text-sm c-text-muted c-leading-relaxed">
+              from, to, hasNext, hasPrev, pages all returned automatically.
+              Out-of-bounds pages clamped safely.
+            </p>
           </div>
-          <div class="c-col-12 c-col-md-4 c-mb-4">
-            <div
-              class="feature-card c-bg-gray-50 c-border c-rounded-md c-p-6 c-h-100 c-transition"
-            >
-              <div
-                class="c-flex c-items-center c-justify-center c-bg-primary-50 c-rounded c-mb-4"
-                style="width: 36px; height: 36px; font-size: 16px"
+          <div class="feature-card c-p-6 c-rounded-xl c-border c-border-base">
+            <div class="feature-icon-wrap c-bg-success-50">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--c-success-600)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               >
-                🗂️
-              </div>
-              <p class="c-text-sm c-font-semibold c-text-fg c-mb-2">GroupBy</p>
-              <p class="c-text-sm c-text-muted c-leading-relaxed">
-                Group records by any field. Result changes to groups object.
-                Perfect for Kanban and analytics.
-              </p>
+                <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+              </svg>
             </div>
+            <p class="c-text-sm c-font-bold c-text-fg c-mb-2">GroupBy</p>
+            <p class="c-text-sm c-text-muted c-leading-relaxed">
+              Group records by any field. Result changes to groups object.
+              Perfect for Kanban and analytics.
+            </p>
           </div>
-          <div class="c-col-12 c-col-md-4 c-mb-4">
-            <div
-              class="feature-card c-bg-gray-50 c-border c-rounded-md c-p-6 c-h-100 c-transition"
-            >
-              <div
-                class="c-flex c-items-center c-justify-center c-bg-primary-50 c-rounded c-mb-4"
-                style="width: 36px; height: 36px; font-size: 16px"
+          <div class="feature-card c-p-6 c-rounded-xl c-border c-border-base">
+            <div class="feature-icon-wrap c-bg-error-50">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--c-error-600)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               >
-                🔒
-              </div>
-              <p class="c-text-sm c-font-semibold c-text-fg c-mb-2">
-                Serializable pipelines
-              </p>
-              <p class="c-text-sm c-text-muted c-leading-relaxed">
-                toJSON() and fromJSON() let you save, share, and restore query
-                definitions. No other utility does this.
-              </p>
+                <path
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                />
+              </svg>
             </div>
+            <p class="c-text-sm c-font-bold c-text-fg c-mb-2">
+              Serializable pipelines
+            </p>
+            <p class="c-text-sm c-text-muted c-leading-relaxed">
+              toJSON() and fromJSON() let you save, share, and restore query
+              definitions. No other utility does this.
+            </p>
           </div>
-          <div class="c-col-12 c-col-md-4 c-mb-4">
-            <div
-              class="feature-card c-bg-gray-50 c-border c-rounded-md c-p-6 c-h-100 c-transition"
-            >
-              <div
-                class="c-flex c-items-center c-justify-center c-bg-primary-50 c-rounded c-mb-4"
-                style="width: 36px; height: 36px; font-size: 16px"
+          <div class="feature-card c-p-6 c-rounded-xl c-border c-border-base">
+            <div class="feature-icon-wrap c-bg-primary-50">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--c-primary-600)"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
               >
-                ☑️
-              </div>
-              <p class="c-text-sm c-font-semibold c-text-fg c-mb-2">
-                Selection helpers
-              </p>
-              <p class="c-text-sm c-text-muted c-leading-relaxed">
-                Pass selected IDs and get allSelected and someSelected back.
-                Indeterminate checkbox handled for you.
-              </p>
+                <polyline points="9 11 12 14 22 4" />
+                <path
+                  d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"
+                />
+              </svg>
             </div>
+            <p class="c-text-sm c-font-bold c-text-fg c-mb-2">
+              Selection helpers
+            </p>
+            <p class="c-text-sm c-text-muted c-leading-relaxed">
+              Pass selected IDs and get allSelected and someSelected back.
+              Indeterminate checkbox handled for you.
+            </p>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="divider"></div>
-
-    <!-- ── Footer ────────────────────────────────────────────── -->
-    <footer class="c-py-12">
-      <div class="c-container">
+    <footer class="c-border-t c-border-base c-mt-0">
+      <div class="c-container c-py-12">
         <div
-          class="c-flex c-justify-between c-items-center c-flex-wrap c-gap-4 c-mb-6"
+          class="c-flex c-items-center c-justify-between c-flex-wrap c-gap-4 c-mb-8"
         >
-          <span class="c-text-sm c-font-semibold c-text-fg"
-            >@datafluxgrid/fluxgrid-data</span
-          >
+          <div class="c-flex c-items-center c-gap-2">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect width="20" height="20" rx="5" fill="var(--c-primary-500)" />
+              <path
+                d="M5 10h10M5 7h6M5 13h8"
+                stroke="#fff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+            <span class="c-font-bold c-text-sm c-text-fg"
+              >@datafluxgrid/fluxgrid-data</span
+            >
+          </div>
           <ul class="c-flex c-gap-6 c-flex-wrap" style="list-style: none">
             <li>
               <a
@@ -1670,89 +1266,55 @@ localStorage.<span class="fn">setItem</span>(<span class="str">'myQuery'</span>,
             </li>
           </ul>
         </div>
-        <div class="c-border-t c-pt-6 c-flex c-flex-col c-gap-2">
-          <p class="c-text-xs c-text-muted">
-            Built with ♥ by
+        <div class="c-border-t c-border-base c-pt-6 c-flex c-flex-col c-gap-2">
+          <p class="c-text-xs c-text-muted c-flex c-items-center c-gap-1">
+            Built with
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--c-error-500)"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+              />
+            </svg>
+            by
             <a
               href="https://github.com/vimalkrml"
               target="_blank"
-              class="accent"
+              class="c-text-primary-500 c-font-medium"
               style="text-decoration: none"
               >Vimal K R</a
             >
-            · Part of the
+            &nbsp;·&nbsp; Part of the
             <a
               href="https://www.linkedin.com/company/datafluxgrid/"
               target="_blank"
-              class="accent"
+              class="c-text-primary-500 c-font-medium"
               style="text-decoration: none"
               >Datafluxgrid</a
             >
-            ecosystem · MIT License
+            ecosystem &nbsp;·&nbsp; MIT License
           </p>
           <p class="c-text-xs c-text-muted">
             This website is styled with our own CSS framework —
             <a
               href="https://www.npmjs.com/package/@datafluxgrid/fluxgrid-css"
               target="_blank"
-              class="accent"
+              class="c-text-primary-500 c-font-medium"
               style="text-decoration: none"
               >@datafluxgrid/fluxgrid-css</a
             >
-            · Zero build step · Dark mode built-in · CDN ready
+            &nbsp;·&nbsp; Zero build step &nbsp;·&nbsp; Dark mode built-in
+            &nbsp;·&nbsp; CDN ready
           </p>
         </div>
       </div>
     </footer>
-
-    <script>
-      function toggleTheme() {
-        const html = document.documentElement;
-        const isDark = html.getAttribute("data-theme") === "dark";
-        html.setAttribute("data-theme", isDark ? "light" : "dark");
-        document.getElementById("theme-icon").textContent = isDark
-          ? "☀️"
-          : "🌙";
-        localStorage.setItem("theme", isDark ? "light" : "dark");
-      }
-      (function () {
-        const saved = localStorage.getItem("theme");
-        if (saved === "dark") {
-          document.documentElement.setAttribute("data-theme", "dark");
-          document.getElementById("theme-icon").textContent = "🌙";
-        }
-      })();
-      function switchTab(btn, id) {
-        document
-          .querySelectorAll(".tab-btn")
-          .forEach((b) => b.classList.remove("active"));
-        document
-          .querySelectorAll(".tab-panel")
-          .forEach((p) => p.classList.remove("active"));
-        btn.classList.add("active");
-        document.getElementById(id).classList.add("active");
-      }
-      function copyCode(btn) {
-        const pre = btn.closest("div").nextElementSibling;
-        navigator.clipboard.writeText(pre.innerText).then(() => {
-          btn.textContent = "Copied!";
-          btn.classList.add("copied");
-          setTimeout(() => {
-            btn.textContent = "Copy";
-            btn.classList.remove("copied");
-          }, 2000);
-        });
-      }
-      function copyText(btn, text) {
-        navigator.clipboard.writeText(text).then(() => {
-          btn.textContent = "Copied!";
-          btn.classList.add("copied");
-          setTimeout(() => {
-            btn.textContent = "Copy";
-            btn.classList.remove("copied");
-          }, 2000);
-        });
-      }
-    </script>
   </body>
 </html>
