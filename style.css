@@ -455,3 +455,62 @@ td.partial {
     font-size: 1.4rem;
   }
 }
+@media (max-width: 768px) {
+  .api-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar styling */
+  .api-wrap::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .api-wrap::-webkit-scrollbar-track {
+    background: var(--c-gray-200);
+    border-radius: 3px;
+  }
+
+  [data-theme="dark"] .api-wrap::-webkit-scrollbar-track {
+    background: var(--c-gray-800);
+  }
+
+  .api-wrap::-webkit-scrollbar-thumb {
+    background: var(--c-primary-400);
+    border-radius: 3px;
+  }
+
+  .api-wrap::-webkit-scrollbar-thumb:hover {
+    background: var(--c-primary-500);
+  }
+
+  .api-wrap {
+    position: relative;
+  }
+
+  .api-wrap::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 30px;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.05), transparent);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  [data-theme="dark"] .api-wrap::after {
+    background: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0.05),
+      transparent
+    );
+  }
+
+  .api-wrap:not(.scrolled-to-end)::after {
+    opacity: 1;
+  }
+}

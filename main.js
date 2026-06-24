@@ -48,5 +48,36 @@ function copyText(btn, text) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    const apiWraps = document.querySelectorAll('.api-wrap');
+
+    apiWraps.forEach(wrap => {
+        wrap.addEventListener('scroll', function () {
+            const scrollLeft = this.scrollLeft;
+            const scrollWidth = this.scrollWidth;
+            const clientWidth = this.clientWidth;
+
+            if (scrollLeft + clientWidth >= scrollWidth - 5) {
+                this.classList.add('scrolled-to-end');
+            } else {
+                this.classList.remove('scrolled-to-end');
+            }
+        });
+
+        window.addEventListener('resize', function () {
+            const scrollLeft = wrap.scrollLeft;
+            const scrollWidth = wrap.scrollWidth;
+            const clientWidth = wrap.clientWidth;
+
+            if (scrollLeft + clientWidth >= scrollWidth - 5) {
+                wrap.classList.add('scrolled-to-end');
+            } else {
+                wrap.classList.remove('scrolled-to-end');
+            }
+        });
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
     renderThemeIcon();
 });
+
